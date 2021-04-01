@@ -96,8 +96,8 @@ class IntroScreenState extends State<IntroScreen> {
                     await Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
                         builder: (context) {
-                          // return DiscoveryPage();
-                          return T2BottomNavigation();
+                          return DiscoveryPage();
+                          // return T2BottomNavigation();
                         },
                       ),
                     );
