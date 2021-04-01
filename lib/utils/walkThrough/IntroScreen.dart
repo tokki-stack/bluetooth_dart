@@ -1,7 +1,10 @@
 import 'package:flutter_app_esp32_dust_sensor/screens/bottomnavigation.dart';
+import 'package:flutter_app_esp32_dust_sensor/screens/pages/bluetooth/DiscoveryPage.dart';
+import 'package:flutter_app_esp32_dust_sensor/screens/pages/connection.dart';
 import 'package:flutter_app_esp32_dust_sensor/utils/T1Colors.dart';
 import 'package:flutter_app_esp32_dust_sensor/utils/walkThrough/dots_indicator/src/dots_decorator.dart';
 import 'package:flutter_app_esp32_dust_sensor/utils/walkThrough/dots_indicator/src/dots_indicator.dart';
+import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -79,14 +82,32 @@ class IntroScreenState extends State<IntroScreen> {
                         style: TextStyle(color: t1_white, fontSize: 12.0)),
                     padding: EdgeInsets.all(24),
                   ),
-                  onTap: () {
-                    Navigator.pushReplacement(
-                      context,
+                  onTap: () async {
+                    // Navigator.pushReplacement(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     // builder: (context) => T2BottomNavigation(),T1WalkThrough
+                    //     // builder: (context) => T2BottomNavigation(),
+                    //     builder: (context) => Connection(),
+                    //   ),
+                    // );
+
+                    // final BluetoothDevice selectedDevice =
+                    await Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
-                        // builder: (context) => T2BottomNavigation(),T1WalkThrough
-                        builder: (context) => T2BottomNavigation(),
+                        builder: (context) {
+                          // return DiscoveryPage();
+                          return T2BottomNavigation();
+                        },
                       ),
                     );
+
+                    // if (selectedDevice != null) {
+                    //   print('Discovery -> selected ' + selectedDevice.address);
+                    // } else {
+                    //   print('Discovery -> no device selected');
+                    // }
+                    // await _startConnect(selectedDevice.address);
                   },
                 ),
                 SizedBox(height: 16),

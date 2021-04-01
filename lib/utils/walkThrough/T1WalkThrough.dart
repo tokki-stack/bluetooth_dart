@@ -12,18 +12,15 @@ class T1WalkThrough extends StatelessWidget {
   final List<Walkthrough> list = [
     Walkthrough(
         title: "Turn on your Bluetooth",
-        content:
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
+        content: "Please turn on Bluetooth on your device",
         imageIcon: t1_walk1),
     Walkthrough(
-        title: "Connect to the Venu Mask",
-        content:
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
+        title: "Plug in your Venus Mask",
+        content: "Ensure your Venus mask is plugged in.",
         imageIcon: t1_walk2),
     Walkthrough(
-        title: "Step 3",
-        content:
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
+        title: "Connect to your Venus Mask",
+        content: "Press skip to search for your Venus Mask and tap to connect",
         imageIcon: t1_walk3),
   ];
 

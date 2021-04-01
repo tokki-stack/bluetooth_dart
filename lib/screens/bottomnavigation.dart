@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_esp32_dust_sensor/screens/pages/contactus.dart';
+// import 'package:flutter_app_esp32_dust_sensor/screens/pages/contactus.dart';
 import 'package:flutter_app_esp32_dust_sensor/screens/pages/home.dart';
 import 'package:flutter_app_esp32_dust_sensor/screens/pages/setup.dart';
 import 'package:flutter_app_esp32_dust_sensor/screens/pages/statistics.dart';
@@ -36,6 +37,7 @@ class T2BottomNavigationState extends State<T2BottomNavigation> {
       Setup(),
       Statistics(),
       ContactUs(),
+      // ContactUs(),
     ];
     var title = '';
     if (currentIndex == 0) {

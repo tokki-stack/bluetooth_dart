@@ -26,10 +26,11 @@ dependencies:
   # flutter_blue: ^0.6.2
   oscilloscope: ^0.0.3
   flutter_statusbarcolor: 0.2.3
-  nb_utils: 3.1.6+7
+  nb_utils: ^4.0.4
   charts_flutter: 0.9.0
   flutter_launcher_icons: "^0.8.0"
   flutter_bluetooth_serial: ^0.2.2
+  android_alarm_manager: ^0.4.5+17
 
 dev_dependencies:
   flutter_test:

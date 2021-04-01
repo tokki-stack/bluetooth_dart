@@ -20,9 +20,17 @@ class _Setup extends State<Setup> {
   init() async {}
   List<Program> programList = [
     Program(
-        title: 'Step 1', description: "Ensure WiFi is enabled on your device"),
-    Program(title: 'Step 2', description: "Scan for Wireless devices"),
-    Program(title: 'Step 3', description: 'Connect to "Venus Mask"'),
+        title: 'Step 1',
+        description: "Ensure Bluetooth is enabled on your device"),
+    Program(
+        title: 'Step 2',
+        description:
+            "Open the Venus Mask app and search for Bluetooth devices"),
+    Program(title: 'Step 3', description: 'Tap to connect to your Venus Mask'),
+    Program(
+        title: 'Step 4',
+        description:
+            'Choose a program or design your own in the custom program mode'),
   ];
   @override
   Widget build(BuildContext context) {

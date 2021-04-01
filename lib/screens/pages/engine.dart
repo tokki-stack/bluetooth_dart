@@ -39,11 +39,11 @@ class _Engine extends State<Engine> {
 
     print(global_duration);
     if (global_duration == null) {
-      global_duration = '1';
+      global_duration = '10';
     }
     getProgram(global_currentProgram);
     if (global_customProgramFlag != true) {
-      global_duration = '1';
+      global_duration = '10';
     }
     if (global_customProgramFlag == true && global_customProgramIndex != 0) {
       await sendRequest(global_currentProgram, true);
@@ -87,89 +87,44 @@ class _Engine extends State<Engine> {
     }
   }
 
+  void sendText(String str) async {
+    try {
+      global_connection.output.add(utf8.encode(str + "\r\n"));
+      await global_connection.output.allSent;
+      toast("successfully sent");
+    } catch (e) {
+      // Ignore error, but notify state
+      toast(e.toString());
+      setState(() {});
+    }
+  }
+
   sendRequest(String index, bool onOFF) async {
-    // try {
-    //   if (onOFF) {
-    //     if (index == '1') {
-    //       global_socket.write("RedOn\n");
-    //     } else if (index == '2') {
-    //       global_socket.write("BlueOn\n");
-    //     } else if (index == '3') {
-    //       global_socket.write("GreenOn\n");
-    //     } else if (index == '4') {
-    //       global_socket.write("YellowOn\n");
-    //     } else if (index == '5') {
-    //       global_socket.write("PurpleOn\n");
-    //     } else if (index == '6') {
-    //       global_socket.write("TurquoiseOn\n");
-    //     } else {
-    //       print('err');
-    //     }
-    //   } else {
-    //     global_socket.write("AllOff\n");
-    //   }
-    // } catch (e) {
-    //   print(e);
-    // }
-
-//     String color = '';
-//     String onoff = '';
-//     String generatedUrl = '';
-//     if (index == '1') {
-//       color = 'red';
-//     } else if (index == '2') {
-//       programName = 'Blue Program';
-//       color = 'blue';
-//     } else if (index == '3') {
-//       programName = 'Green Program';
-//       color = 'green';
-//     } else if (index == '4') {
-//       programName = 'Yellow Program';
-//       color = 'yellow';
-//     } else if (index == '5') {
-//       programName = 'Purple Program';
-//       color = 'purple';
-//     } else if (index == '6') {
-//       programName = 'Turquoise Program';
-//       color = 'turquoise';
-//     } else {
-//       programName = 'White Program';
-//       color = 'white';
-//     }
-//     if (onOFF) {
-//       onoff = 'on';
-//     } else {
-//       onoff = 'off';
-//     }
-//     generatedUrl = 'http://192.168.4.1/' + color + '/' + onoff;
-//     print("+++++++++============++++++++++=====+++++========generatedUrl");
-
-//     print(generatedUrl);
-//     String encoded = Uri.encodeFull(generatedUrl);
-//     print(
-//         "+++++++++============++++++++++=====+++++========generatedUrlencoded");
-
-//     print(encoded);
-// // 192.168.8.159:80
-// // 192.168.4.1
-// // 192.168.101.225:3300
-
-//     // var client = new http.Client();
-//     // try {
-//     //   final response = await client.get(encoded, headers: {
-//     //     "Access-Control-Allow-Origin": "*",
-//     //   });
-//     //   print(response);
-//     // } catch (e) {
-//     //   print(e);
-//     // } finally {
-//     //   client.close();
-//     // }
-//     if (onOFF) {
-//       global_socket.write("RedOn\n");
-//     } else {
-//       global_socket.write("RedOff\n");
-//     }
+    try {
+      if (onOFF) {
+        if (index == '1') {
+          await sendText('1');
+        } else if (index == '2') {
+          await sendText('2');
+        } else if (index == '3') {
+          await sendText('3');
+        } else if (index == '4') {
+          await sendText('4');
+        } else if (index == '5') {
+          await sendText('5');
+        } else if (index == '6') {
+          await sendText('6');
+        } else if (index == '7') {
+          await sendText('7');
+        } else {
+          print('err');
+        }
+      } else {
+        await sendText('0');
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 
   updateHistory() async {
@@ -246,7 +201,7 @@ class _Engine extends State<Engine> {
                   .paddingOnly(top: 20, bottom: 30),
               CircularCountDownTimer(
                 // Countdown duration in Seconds
-                duration: int.parse(global_duration),
+                duration: int.parse(global_duration) * 60,
                 // Controller to control (i.e Pause, Resume, Restart) the Countdown
                 controller: _controller,
                 // Width of the Countdown Widget

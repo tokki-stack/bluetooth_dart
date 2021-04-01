@@ -1,8 +1,13 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_esp32_dust_sensor/screens/bottomnavigation.dart';
 import 'package:flutter_app_esp32_dust_sensor/screens/pages/bluetooth/BluetoothDeviceListEntry.dart';
 import 'package:flutter_app_esp32_dust_sensor/utils/T1Colors.dart';
+import 'package:flutter_app_esp32_dust_sensor/utils/global.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
+import 'package:nb_utils/nb_utils.dart';
 
 class DiscoveryPage extends StatefulWidget {
   /// If true, discovery starts on page start, otherwise user must press action button.
@@ -65,10 +70,38 @@ class _DiscoveryPage extends State<DiscoveryPage> {
     super.dispose();
   }
 
+  void _startConnect(address) async {
+    // Some simplest connection :F
+    try {
+      global_connection = await BluetoothConnection.toAddress(address);
+      toast('Connected to the device');
+      print('Connected to the device');
+
+      global_connection.input.listen((Uint8List data) {
+        print('Data incoming: ${ascii.decode(data)}');
+        toast('Data incoming: ${ascii.decode(data)}');
+        global_connection.output.add(data); // Sending data
+
+        if (ascii.decode(data).contains('!')) {
+          global_connection.finish(); // Closing connection
+          print('Disconnecting by local host');
+          toast('Disconnecting by local host');
+        }
+      }).onDone(() {
+        print('Disconnected by remote request');
+        toast('Disconnecting by remote request');
+      });
+    } catch (exception) {
+      print('Cannot connect, exception occured');
+      toast('Cannot connect, exception occured');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: Container(),
         backgroundColor: t1_colorPrimary,
         title: isDiscovering
             ? Text('Discovering devices')
@@ -96,8 +129,17 @@ class _DiscoveryPage extends State<DiscoveryPage> {
           return BluetoothDeviceListEntry(
             device: result.device,
             rssi: result.rssi,
-            onTap: () {
-              Navigator.of(context).pop(result.device);
+            onTap: () async {
+              // Navigator.of(context).pop(result.device);
+              await _startConnect(result.device.address);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  // builder: (context) => T2BottomNavigation(),T1WalkThrough
+                  builder: (context) => T2BottomNavigation(),
+                  // builder: (context) => Connection(),
+                ),
+              );
             },
             onLongPress: () async {
               try {
