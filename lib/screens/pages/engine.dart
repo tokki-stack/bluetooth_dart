@@ -32,12 +32,6 @@ class _Engine extends State<Engine> {
   Color programColor;
   String programName;
   init() async {
-    print('global_currentProgram');
-
-    print(global_currentProgram);
-    print('global_duration');
-
-    print(global_duration);
     if (global_duration == null) {
       global_duration = '10';
     }
@@ -88,6 +82,8 @@ class _Engine extends State<Engine> {
   }
 
   void sendText(String str) async {
+    print("!!!!!!!!!!!!!!!!!!!!!!");
+    print(str);
     try {
       global_connection.output.add(utf8.encode(str + "\r\n"));
       await global_connection.output.allSent;
@@ -117,6 +113,7 @@ class _Engine extends State<Engine> {
         } else if (index == '7') {
           await sendText('7');
         } else {
+          await sendText(global_customProgram[0]['program']);
           print('err');
         }
       } else {
@@ -186,13 +183,6 @@ class _Engine extends State<Engine> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // global_customProgramFlag == true
-              //     ? Text(
-              //         "Custom Program",
-              //         style:
-              //             TextStyle(fontSize: 36, fontWeight: FontWeight.w600),
-              //       ).paddingTop(60)
-              //     : Container(),
               Text(
                 programName,
                 style: TextStyle(fontSize: 36, fontWeight: FontWeight.w600),
@@ -200,59 +190,36 @@ class _Engine extends State<Engine> {
               Text('Put your mask on and press play to start')
                   .paddingOnly(top: 20, bottom: 30),
               CircularCountDownTimer(
-                // Countdown duration in Seconds
                 duration: int.parse(global_duration) * 60,
-                // Controller to control (i.e Pause, Resume, Restart) the Countdown
                 controller: _controller,
-                // Width of the Countdown Widget
                 width: MediaQuery.of(context).size.width * 0.8,
-                // Height of the Countdown Widget
                 height: MediaQuery.of(context).size.width * 0.8,
-                // Default Color for Countdown Timer
                 color: Colors.white,
-                // Filling Color for Countdown Timer
                 fillColor: programColor,
-                // Background Color for Countdown Widget
                 backgroundColor: null,
-                // Border Thickness of the Countdown Circle
                 strokeWidth: 10.0,
-                // Begin and end contours with a flat edge and no extension
                 strokeCap: StrokeCap.round,
-                // Text Style for Countdown Text
                 textStyle: TextStyle(
                     fontSize: 50.0,
                     color: programColor,
                     fontWeight: FontWeight.bold),
-                // true for reverse countdown (max to 0), false for forward countdown (0 to max)
                 isReverse: true,
-                // true for reverse animation, false for forward animation
                 isReverseAnimation: true,
-                // Optional [bool] to hide the [Text] in this widget.
                 isTimerTextShown: true,
-                // Function which will execute when the Countdown Ends
-
                 onComplete: () async {
-                  // Here, do whatever you want
-                  print('Countdown Ended');
                   setState(() {
                     _isPause = true;
                   });
                   await sendRequest(global_currentProgram, false);
-
                   if (global_customProgramFlag == true) {
+                    updateHistory();
+                    global_customProgramIndex = global_customProgramIndex + 1;
                     global_currentProgram =
                         global_customProgram[global_customProgramIndex]
                             ['program'];
-                    updateHistory();
-                    global_customProgramIndex = global_customProgramIndex + 1;
-                    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                    print(global_currentProgram);
-                    print(global_customProgramIndex);
-                    print(global_customProgram.length);
                     if (global_customProgramIndex ==
                         global_customProgram.length) {
                       global_customProgramFlag = false;
-                      print("++++++++++++++++++++++++++++++");
                       Future.delayed(const Duration(milliseconds: 100), () {
                         Navigator.pop(context);
                       });
